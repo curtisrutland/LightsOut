@@ -9,7 +9,7 @@ namespace LightsOut.Entities {
         public List<LightsOutCell> Cells { get; private set; }
 
         private int TotalCells { get { return Rows * Columns; } }
-        private LightsOutCell[,] cellMatrix;
+        private readonly LightsOutCell[,] cellMatrix;
         private readonly Random random = new Random();
 
         public LightsOutGame() : this(Constants.DefaultRows, Constants.DefaultColumns) { }
@@ -21,6 +21,24 @@ namespace LightsOut.Entities {
             cellMatrix = new LightsOutCell[Rows, Columns];
             InitializeCells();
             CreateNewGame();
+        }
+
+        public void ToggleCells(LightsOutCell clickedCell) {
+            int row = clickedCell.Row, column = clickedCell.Column;
+            //self
+            clickedCell.Toggle();
+            //up
+            if (row - 1 >= 0)
+                cellMatrix[row - 1, column].Toggle();
+            //down
+            if (row + 1 < Rows)
+                cellMatrix[row + 1, column].Toggle();
+            //left
+            if(column - 1 >= 0)
+                cellMatrix[row, column - 1].Toggle();
+            //right
+            if (column + 1 < Columns)
+                cellMatrix[row, column + 1].Toggle();
         }
 
         private void InitializeCells() {
@@ -41,36 +59,6 @@ namespace LightsOut.Entities {
             } while (indexes.Count < Constants.TilesToRandomize);
             foreach (var index in indexes)
                 ToggleCells(Cells[index]);
-        }
-
-        public void ToggleCells(LightsOutCell clickedCell) {
-            int row = clickedCell.Row, column = clickedCell.Column;
-            //self
-            clickedCell.Toggle();
-            //up
-            if (row - 1 >= 0)
-                cellMatrix[row - 1, column].Toggle();
-            //down
-            if (row + 1 < Rows)
-                cellMatrix[row + 1, column].Toggle();
-            //left
-            if(column - 1 >= 0)
-                cellMatrix[row, column - 1].Toggle();
-            //right
-            if (column + 1 < Columns)
-                cellMatrix[row, column + 1].Toggle();
-
-            //for(var r = row - 1; r <= row + 1; r ++) {
-            //    if(r < 0 || r >= Rows)
-            //        continue;
-            //    for(var c = column - 1; c<= column + 1; c ++) {
-            //        if(c < 0 || c >= Columns)
-            //            continue;
-            //        var cell = Cells.Where(x => x.Row == r && x.Column == c).SingleOrDefault();
-            //        if(cell != null)
-            //            cell.Toggle();
-            //    }
-            //}
         }
     }
 }
