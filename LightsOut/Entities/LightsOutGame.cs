@@ -7,6 +7,7 @@ namespace LightsOut.Entities {
         public int Rows { get; private set; }
         public int Columns { get; private set; }
         public List<LightsOutCell> Cells { get; private set; }
+        public bool Won { get { return !Cells.Any(x => x.Toggled); } }
 
         private int TotalCells { get { return Rows * Columns; } }
         private readonly LightsOutCell[,] cellMatrix;
@@ -20,7 +21,18 @@ namespace LightsOut.Entities {
             Cells = new List<LightsOutCell>(TotalCells);
             cellMatrix = new LightsOutCell[Rows, Columns];
             InitializeCells();
-            CreateNewGame();
+        }
+
+        public void NewGame() {
+            Cells.ForEach(x => x.IsEnabled = true);
+            var indexes = new List<int>();
+            do {
+                var index = random.Next(0, TotalCells);
+                if (!indexes.Contains(index))
+                    indexes.Add(index);
+            } while (indexes.Count < Constants.TilesToRandomlyToggle);
+            foreach (var index in indexes)
+                ToggleCells(Cells[index]);
         }
 
         public void ToggleCells(LightsOutCell clickedCell) {
@@ -34,11 +46,15 @@ namespace LightsOut.Entities {
             if (row + 1 < Rows)
                 cellMatrix[row + 1, column].Toggle();
             //left
-            if(column - 1 >= 0)
+            if (column - 1 >= 0)
                 cellMatrix[row, column - 1].Toggle();
             //right
             if (column + 1 < Columns)
                 cellMatrix[row, column + 1].Toggle();
+        }
+
+        public void Finish() {
+            Cells.ForEach(x => x.IsEnabled = false);
         }
 
         private void InitializeCells() {
@@ -48,17 +64,6 @@ namespace LightsOut.Entities {
                     Cells.Add(cell);
                     cellMatrix[r, c] = cell;
                 }
-        }
-
-        private void CreateNewGame() {
-            var indexes = new List<int>();
-            do {
-                var index = random.Next(0, TotalCells);
-                if (!indexes.Contains(index))
-                    indexes.Add(index);
-            } while (indexes.Count < Constants.TilesToRandomize);
-            foreach (var index in indexes)
-                ToggleCells(Cells[index]);
         }
     }
 }

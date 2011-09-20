@@ -1,4 +1,5 @@
 ﻿<UserControl 
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"  
     x:Class="LightsOut.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,9 +7,45 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:Views="clr-namespace:LightsOut.Views"
     mc:Ignorable="d"
-    d:DesignHeight="418" d:DesignWidth="545">
+    d:DesignHeight="531" d:DesignWidth="762"
+    Loaded="ThisLoaded">
 
     <Grid x:Name="LayoutRoot" Background="White">
-        <Views:LightsOutGameView />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Undo" Margin="2" x:Name="undoButton" Click="UndoButtonClick" />
+                <Button Content="Redo" Margin="2" x:Name="redoButton" Click="RedoButtonClick" />
+            </StackPanel>
+            <TextBlock Grid.Column="1" Text="Lights Out!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" Margin="2" Grid.Column="2" HorizontalAlignment="Right">
+                <TextBlock Text="Rows" VerticalAlignment="Center" Margin="2" />
+                <toolkit:NumericUpDown x:Name="rowsNumericUpDown" Margin="2" Value="5" Minimum="1" Maximum="10" />
+                <TextBlock Text="Columns" VerticalAlignment="Center" Margin="2" />
+                <toolkit:NumericUpDown x:Name="columnsNumericUpDown" Margin="2" Value="5" Minimum="1" Maximum="10" />
+                <Button Content="New Game" Margin="2" Click="NewGameClick" />
+            </StackPanel>
+        </Grid>
+        <Views:LightsOutGameView Grid.Row="1" x:Name="game" GameWon="GameWon" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Time Elapsed: " Margin="2" />
+                <TextBlock Text="" x:Name="timeElapsedTextBlock" Margin="2" />
+            </StackPanel>
+            <TextBlock x:Name="messageTextBlock" Margin="2" Grid.Column="1" />
+        </Grid>
     </Grid>
 </UserControl>

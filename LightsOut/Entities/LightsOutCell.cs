@@ -10,6 +10,16 @@ namespace LightsOut.Entities {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private bool isEnabled;
+        public bool IsEnabled {
+            get { return isEnabled; }
+            set {
+                if (isEnabled == value) return;
+                isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
+        }
+
         private bool toggled;
         public bool Toggled {
             get { return toggled; }
@@ -27,6 +37,7 @@ namespace LightsOut.Entities {
             Row = row;
             Column = column;
             Toggled = false;
+            IsEnabled = false;
         }
 
         public void Toggle() {

@@ -2,6 +2,6 @@
     public static class Constants {
         public const int DefaultRows = 5;
         public const int DefaultColumns = 5;
-        public const int TilesToRandomize = 5;
+        public const int TilesToRandomlyToggle = 5;
     }
 }

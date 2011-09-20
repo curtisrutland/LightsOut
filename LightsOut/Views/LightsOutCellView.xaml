@@ -12,7 +12,9 @@
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot" Background="White">
         <Border BorderBrush="Black" BorderThickness="2">
-            <Rectangle Fill="{Binding Toggled, Converter={StaticResource ToggleConverter}}" MouseLeftButtonUp="RectangleMouseLeftButtonUp" />
+            <Button Background="{Binding Toggled, Converter={StaticResource ToggleConverter}}" 
+                    IsEnabled="{Binding IsEnabled}" Click="ButtonClick" 
+                    Style="{StaticResource LightsOutButton}"/>
         </Border>
     </Grid>
 </UserControl>

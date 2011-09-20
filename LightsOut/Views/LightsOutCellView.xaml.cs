@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using LightsOut.Entities;
 
 namespace LightsOut.Views {
     public partial class LightsOutCellView {
 
-        public event EventHandler<EventArgs> Toggled;
-        protected void OnToggled() {
-            if (Toggled != null) Toggled(this, new EventArgs());
+        public event EventHandler<EventArgs> Click;
+        protected void OnClick() {
+            if (Click != null) Click(this, new EventArgs());
         }
 
         public LightsOutCellView() {
             InitializeComponent();
         }
 
-        private void RectangleMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+        private void ButtonClick(object sender, RoutedEventArgs e) {
             var lightsOutCell = DataContext as LightsOutCell;
-            if (lightsOutCell != null)
-                OnToggled();
+            if (lightsOutCell != null) //sanity check
+                OnClick();
         }
     }
 }
